@@ -1,0 +1,6 @@
+data/im.bernard.Paroligilo.desktop.in
+data/im.bernard.Paroligilo.metainfo.xml.in
+data/im.bernard.Paroligilo.gschema.xml
+src/main.py
+src/window.py
+src/window.ui

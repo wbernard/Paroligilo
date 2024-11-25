@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=paroligilo
+Exec=paroligilo
+Icon=im.bernard.Paroligilo
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true
