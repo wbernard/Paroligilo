@@ -1,14 +1,35 @@
 {
-    "name": "python3-voxpopuli",
+    "name": "python-deps",
     "buildsystem": "simple",
-    "build-commands": [
-        "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"voxpopuli\" --no-build-isolation"
-    ],
-    "sources": [
+    "build-commands": [],
+    "modules": [
         {
-            "type": "file",
-            "url": "https://files.pythonhosted.org/packages/d1/b5/251092f46d38f2b11ebc537f0d46f09e4f701998a01f91915826eccbc581/voxpopuli-0.3.9-py3-none-any.whl",
-            "sha256": "86aeb78bc074610227ec2e9076d874ba685be5ea388ce2629fa426e5eb926bda"
+            "name": "python3-voxpopuli",
+            "buildsystem": "simple",
+            "build-commands": [
+                "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"voxpopuli\" --no-build-isolation"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/d1/b5/251092f46d38f2b11ebc537f0d46f09e4f701998a01f91915826eccbc581/voxpopuli-0.3.9-py3-none-any.whl",
+                    "sha256": "86aeb78bc074610227ec2e9076d874ba685be5ea388ce2629fa426e5eb926bda"
+                }
+            ]
+        },
+        {
+            "name": "python3-pyttsx3",
+            "buildsystem": "simple",
+            "build-commands": [
+                "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"pyttsx3\" --no-build-isolation"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/94/df/e1584757c736c4fba09a3fb4f22fe625cc3367b06c6ece221e4b8c1e3023/pyttsx3-2.98-py3-none-any.whl",
+                    "sha256": "b3fb4ca4d5ae4f8e6836d6b37bf5fee0fd51d157ffa27fb9064be6e7be3da37a"
+                }
+            ]
         }
     ]
 }
