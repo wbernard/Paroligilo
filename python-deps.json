@@ -30,7 +30,7 @@
                     "sha256": "b3fb4ca4d5ae4f8e6836d6b37bf5fee0fd51d157ffa27fb9064be6e7be3da37a"
                 }
             ]
-        }
+        },
         {
             "name": "espeak",
             "buildsystem": "autotools",
@@ -50,6 +50,6 @@
                 "sha256": "cc8092f23a28ccd79b1c5e62984a4c4ac1959d2d0b8193ac208d728c620bd5ed"
             }
             ]
-        },
+        }
     ]
 }
