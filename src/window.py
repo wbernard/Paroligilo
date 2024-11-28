@@ -102,11 +102,12 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         # Retrieve the iterator at the end of the buffer
         end = buffer.get_end_iter()
         # Retrieve all the visible text between the two bounds
-        text = buffer.get_text(start, end, False)
+        text = buffer.get_text(sta:qrt, end, False)
 
         print ('der Text im buffer ist  ', text)
-        voice = Voice()
-        voice.say(text)
+        espeak(text)
+        #voice = Voice()
+        #voice.say(text)
 
     # Dialog zum Speichern des Audio-files
     def save_audio_dialog(self, button):
