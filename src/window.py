@@ -105,8 +105,9 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         text = buffer.get_text(start, end, False)
 
         print ('der Text im buffer ist  ', text)
-        voice = Voice()
-        voice.say(text)
+        espeak(text)
+        #voice = Voice()
+        #voice.say(text)
 
     # Dialog zum Speichern des Audio-files
     def save_audio_dialog(self, button):
