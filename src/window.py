@@ -22,6 +22,9 @@ from gi.repository import Gtk, Gio, GLib
 
 from voxpopuli import Voice
 
+import pyttsx3
+
+
 @Gtk.Template(resource_path='/im/bernard/Paroligilo/window.ui')
 class ParoligiloWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'ParoligiloWindow'
@@ -102,17 +105,20 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         # Retrieve the iterator at the end of the buffer
         end = buffer.get_end_iter()
         # Retrieve all the visible text between the two bounds
-        text = buffer.get_text(sta:qrt, end, False)
+        text = buffer.get_text(start, end, False)
 
         print ('der Text im buffer ist  ', text)
-        espeak(text)
+        engine = pyttsx3.init()
+        engine.say("I will speak this text")
+        engine.runAndWait()
+
+        #espeak(text)
         #voice = Voice()
         #voice.say(text)
 
     # Dialog zum Speichern des Audio-files
     def save_audio_dialog(self, button):
         print ('#### Audio speichern   ####')
-
 
 
 
