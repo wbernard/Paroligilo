@@ -107,14 +107,15 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         # Retrieve all the visible text between the two bounds
         text = buffer.get_text(start, end, False)
 
-        print ('der Text im buffer ist  ', text)
+        print (text)
         engine = pyttsx3.init()
+        print ('#####', engine)
         engine.say("I will speak this text")
         engine.runAndWait()
 
-        #espeak(text)
-        #voice = Voice()
-        #voice.say(text)
+        # espeak ("Das ist der text")
+        # voice = Voice()
+        # voice.say(text)
 
     # Dialog zum Speichern des Audio-files
     def save_audio_dialog(self, button):
