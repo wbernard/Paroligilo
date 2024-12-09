@@ -20,9 +20,9 @@
 from gi.repository import Adw
 from gi.repository import Gtk, Gio, GLib
 
-from voxpopuli import Voice
 
-import pyttsx3
+import pyttsx4
+from playsound import playsound
 
 
 @Gtk.Template(resource_path='/im/bernard/Paroligilo/window.ui')
@@ -108,14 +108,13 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         text = buffer.get_text(start, end, False)
 
         print (text)
-        engine = pyttsx3.init()
-        print ('#####', engine)
-        engine.say("I will speak this text")
+        engine = pyttsx4.init()
+        print ('##### engine ist', engine)
+        # engine.say("I will speak this text")
+        engine.save_to_file(text, 'test1.wav')
         engine.runAndWait()
+        playsound('test1.wav')
 
-        # espeak ("Das ist der text")
-        # voice = Voice()
-        # voice.say(text)
 
     # Dialog zum Speichern des Audio-files
     def save_audio_dialog(self, button):

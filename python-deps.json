@@ -1,55 +1,14 @@
 {
-    "name": "python-deps",
+    "name": "python3-playsound",
     "buildsystem": "simple",
-    "build-commands": [],
-    "modules": [
+    "build-commands": [
+        "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"playsound\" --no-build-isolation"
+    ],
+    "sources": [
         {
-            "name": "python3-voxpopuli",
-            "buildsystem": "simple",
-            "build-commands": [
-                "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"voxpopuli\" --no-build-isolation"
-            ],
-            "sources": [
-                {
-                    "type": "file",
-                    "url": "https://files.pythonhosted.org/packages/d1/b5/251092f46d38f2b11ebc537f0d46f09e4f701998a01f91915826eccbc581/voxpopuli-0.3.9-py3-none-any.whl",
-                    "sha256": "86aeb78bc074610227ec2e9076d874ba685be5ea388ce2629fa426e5eb926bda"
-                }
-            ]
-        },
-        {
-            "name": "python3-pyttsx3",
-            "buildsystem": "simple",
-            "build-commands": [
-                "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"pyttsx3\" --no-build-isolation"
-            ],
-            "sources": [
-                {
-                    "type": "file",
-                    "url": "https://files.pythonhosted.org/packages/94/df/e1584757c736c4fba09a3fb4f22fe625cc3367b06c6ece221e4b8c1e3023/pyttsx3-2.98-py3-none-any.whl",
-                    "sha256": "b3fb4ca4d5ae4f8e6836d6b37bf5fee0fd51d157ffa27fb9064be6e7be3da37a"
-                }
-            ]
-        },
-        {
-            "name": "espeak",
-            "buildsystem": "autotools",
-            "config-opts": [
-                "--with-pic",
-                "--enable-static",
-                "--with-pcaudiolib=no",
-                "--with-sonic=no",
-                "--with-speechplayer=no",
-                "--with-mbrola=yes",
-                "--with-extdict-ru"
-            ],
-            "sources": [
-            {
-                "type": "archive",
-                "url": "https://github.com/rhasspy/espeak-ng/archive/8593723f10cfd9befd50de447f14bf0a9d2a14a4.zip",
-                "sha256": "cc8092f23a28ccd79b1c5e62984a4c4ac1959d2d0b8193ac208d728c620bd5ed"
-            }
-            ]
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/67/8c/c9f46b4b194126c4abb12e96321a6bea5c8dcc5c0e4d97622c14dfabe299/playsound-1.3.0.tar.gz",
+            "sha256": "cc6ed11d773034b0ef624e6bb4bf50f4b76b8414a59ce6d38afb89b423297ced"
         }
     ]
 }
