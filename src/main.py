@@ -26,8 +26,6 @@ gi.require_version('Adw', '1')
 from gi.repository import Gtk, Gio, Adw
 from .window import ParoligiloWindow
 
-sys.path.append(".") # Adds higher directory to python modules path.
-from ..piper import __init__
 
 
 class ParoligiloApplication(Adw.Application):

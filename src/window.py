@@ -25,15 +25,15 @@ from gi.repository import Gtk, Gio, GLib
 from playsound import playsound
 
 import requests
-from subprocess import call
+from subprocess import run
 
 import os
-print (os.getcwd())
+# print (os.getcwd())
 
 import sys
-sys.path.append("..") # Adds higher directory to python modules path.
+#sys.path.append("..") # Adds higher directory to python modules path.
 
-#from .piper.src.python_run.piper import http_server
+# from .piper.src.python_run.piper import http_server
 # import ..piper
 
 @Gtk.Template(resource_path='/im/bernard/Paroligilo/window.ui')
@@ -126,8 +126,8 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         # engine.save_to_file(text, 'test1.wav')
         # engine.runAndWait()
 
-        call(["python", "-m", "piper.http_server", '--model', 'de_DE-kerstin-low.onnx'])
-
+        run(["python3", "builder-projekte/Paroligilo/piper/src/python_run/piper/http_server.py", '--model', 'de_DE-kerstin-low.onnx'])
+        run(["python3", "builder-projekte/Paroligilo/probe.py"])
 
         playsound('test1.wav')
 
