@@ -21,11 +21,23 @@ from gi.repository import Adw
 from gi.repository import Gtk, Gio, GLib
 
 
-import pyttsx4
+#import pyttsx4
 from playsound import playsound
 
+import requests
+from subprocess import call
+
+import os
+print (os.getcwd())
+
+import sys
+sys.path.append("..") # Adds higher directory to python modules path.
+
+#from .piper.src.python_run.piper import http_server
+# import ..piper
 
 @Gtk.Template(resource_path='/im/bernard/Paroligilo/window.ui')
+
 class ParoligiloWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'ParoligiloWindow'
 
@@ -108,12 +120,18 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         text = buffer.get_text(start, end, False)
 
         print (text)
-        engine = pyttsx4.init()
-        print ('##### engine ist', engine)
+        # engine = pyttsx4.init()
+        # print ('##### engine ist', engine)
         # engine.say("I will speak this text")
-        engine.save_to_file(text, 'test1.wav')
-        engine.runAndWait()
+        # engine.save_to_file(text, 'test1.wav')
+        # engine.runAndWait()
+
+        call(["python", "-m", "piper.http_server", '--model', 'de_DE-kerstin-low.onnx'])
+
+
         playsound('test1.wav')
+
+
 
 
     # Dialog zum Speichern des Audio-files
