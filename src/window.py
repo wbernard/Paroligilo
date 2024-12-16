@@ -25,7 +25,7 @@ from gi.repository import Gtk, Gio, GLib
 from playsound import playsound
 
 import requests
-from subprocess import run
+from subprocess import run, Popen
 
 import os
 # print (os.getcwd())
@@ -126,10 +126,32 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         # engine.save_to_file(text, 'test1.wav')
         # engine.runAndWait()
 
-        run(["python3", "builder-projekte/Paroligilo/piper/src/python_run/piper/http_server.py", '--model', 'de_DE-kerstin-low.onnx'])
+    # der Start des http_servers von hier aus funktioniert noch nicht
+        #run(["python3", "builder-projekte/Paroligilo/piper/src/python_run/piper/http_server.py", '--model', 'de_DE-kerstin-low.onnx'])
+
+        # python_bin ="/home/walter/builder-projekte/Paroligilo/.venv"
+        # script_file = "home/walter/builder-projekte/Paroligilo/piper/src/python_run/piper/http_server.py"
+        # Popen([python_bin, script_file])
+
+        # im Ordner models/
+        # in .venv ([python3 -m piper.http_server --model de_DE-kerstin-low.onnx --length_scale 1.2 --noise_scale 0.333 --noise_w 0.33 --output-raw | aplay -r 20000 -f S16_LE -t raw - ])
+        #     --sentence-silence SENTENCE_SILENCE  ändert Abstand zwischen Worten
         run(["python3", "builder-projekte/Paroligilo/probe.py"])
 
-        playsound('test1.wav')
+        textToSpeak = text
+        print ('#####   ',textToSpeak)
+        urlPiper = "http://localhost:5000"
+        outputFilename = "output2.wav"
+
+        payload = {'text': textToSpeak}
+
+        r = requests.get(urlPiper,params=payload)
+
+        with open(outputFilename, 'wb') as fd:
+            for chunk in r.iter_content(chunk_size=128):
+                fd.write(chunk)
+
+        playsound('output2.wav')
 
 
 
