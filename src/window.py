@@ -21,23 +21,12 @@ from gi.repository import Adw
 from gi.repository import Gtk, Gio, GLib
 
 
-#import pyttsx4
+import pyttsx4
 from playsound import playsound
-
 import requests
-from subprocess import run, Popen
 
-import os
-# print (os.getcwd())
-
-import sys
-#sys.path.append("..") # Adds higher directory to python modules path.
-
-# from .piper.src.python_run.piper import http_server
-# import ..piper
 
 @Gtk.Template(resource_path='/im/bernard/Paroligilo/window.ui')
-
 class ParoligiloWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'ParoligiloWindow'
 
@@ -119,29 +108,19 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         # Retrieve all the visible text between the two bounds
         text = buffer.get_text(start, end, False)
 
-        print (text)
+        # Ausgabe mit pyttsx4
         # engine = pyttsx4.init()
         # print ('##### engine ist', engine)
         # engine.say("I will speak this text")
         # engine.save_to_file(text, 'test1.wav')
         # engine.runAndWait()
 
-    # der Start des http_servers von hier aus funktioniert noch nicht
-        #run(["python3", "builder-projekte/Paroligilo/piper/src/python_run/piper/http_server.py", '--model', 'de_DE-kerstin-low.onnx'])
 
-        # python_bin ="/home/walter/builder-projekte/Paroligilo/.venv"
-        # script_file = "home/walter/builder-projekte/Paroligilo/piper/src/python_run/piper/http_server.py"
-        # Popen([python_bin, script_file])
-
-        # im Ordner models/
-        # in .venv ([python3 -m piper.http_server --model de_DE-kerstin-low.onnx --length_scale 1.2 --noise_scale 0.333 --noise_w 0.33 --output-raw | aplay -r 20000 -f S16_LE -t raw - ])
-        #     --sentence-silence SENTENCE_SILENCE  ändert Abstand zwischen Worten
-        run(["python3", "builder-projekte/Paroligilo/probe.py"])
-
+        # Ausgabe mit piper
         textToSpeak = text
         print ('#####   ',textToSpeak)
         urlPiper = "http://localhost:5000"
-        outputFilename = "output2.wav"
+        outputFilename = "test1.wav"
 
         payload = {'text': textToSpeak}
 
@@ -151,15 +130,13 @@ class ParoligiloWindow(Adw.ApplicationWindow):
             for chunk in r.iter_content(chunk_size=128):
                 fd.write(chunk)
 
-        playsound('output2.wav')
 
-
+        playsound('test1.wav')
 
 
     # Dialog zum Speichern des Audio-files
     def save_audio_dialog(self, button):
         print ('#### Audio speichern   ####')
-
 
 
 
