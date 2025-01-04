@@ -111,12 +111,15 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         # Ausgabe mit pyttsx4
         # engine = pyttsx4.init()
         # print ('##### engine ist', engine)
-        # engine.say("I will speak this text")
         # engine.save_to_file(text, 'test1.wav')
         # engine.runAndWait()
 
 
         # Ausgabe mit piper
+        # im Ordner models/
+        # in .venv ([python3 -m piper.http_server --model de_DE-kerstin-low.onnx --length_scale 1.2 --noise_scale 0.333 --noise_w 0.33 --output-raw | aplay -r 20000 -f S16_LE -t raw - ])
+        #     --sentence-silence SENTENCE_SILENCE  ändert Abstand zwischen Worten
+
         textToSpeak = text
         print ('#####   ',textToSpeak)
         urlPiper = "http://localhost:5000"
