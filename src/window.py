@@ -24,7 +24,11 @@ from gi.repository import Gtk, Gio, GLib
 import pyttsx4
 from playsound import playsound
 import requests
+import subprocess
 
+import os
+cwd = os.getcwd()   # liest den aktuellen Arbeitsordner ein
+print ('### cwd', cwd)
 
 @Gtk.Template(resource_path='/im/bernard/Paroligilo/window.ui')
 class ParoligiloWindow(Adw.ApplicationWindow):
@@ -98,6 +102,9 @@ class ParoligiloWindow(Adw.ApplicationWindow):
 
     # Abspielen des Texts
     def read_text(self, button):
+        cwd = os.getcwd()   # liest den aktuellen Arbeitsordner ein
+        print ('### unten cwd', cwd)
+
         print ('### Audio abspielen   ###')
         buffer = self.main_text_view.get_buffer()
 
@@ -115,10 +122,18 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         # engine.runAndWait()
 
 
-        # Ausgabe mit piper
+        # Ausgabe mit piper Serverstart aus der Konsole
         # im Ordner models/
         # in .venv ([python3 -m piper.http_server --model de_DE-kerstin-low.onnx --length_scale 1.2 --noise_scale 0.333 --noise_w 0.33 --output-raw | aplay -r 20000 -f S16_LE -t raw - ])
         #     --sentence-silence SENTENCE_SILENCE  ändert Abstand zwischen Worten
+
+        # Serverstart
+        # python_bin = "/home/walter/builder-projekte/Paroligilo/bin"   # Pfad zur virtuellen Umgebung
+        # os.chdir(python_bin)
+        # print ('### nach wechsel cwd', os.getcwd())
+
+        # server_file = "Paroligilo/piper/src/python_run/piper/http_server"
+        # subprocess.run([python_bin, server_file])
 
         textToSpeak = text
         print ('#####   ',textToSpeak)
