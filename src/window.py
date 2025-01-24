@@ -23,10 +23,7 @@ from gi.repository import Gtk, Gio, GLib
 
 import pyttsx4
 from pygame import mixer
-
-import os
-cwd = os.getcwd()   # liest den aktuellen Arbeitsordner ein
-print ('### cwd', cwd)
+from gtts import gTTS
 
 @Gtk.Template(resource_path='/im/bernard/Paroligilo/window.ui')
 class ParoligiloWindow(Adw.ApplicationWindow):
@@ -100,8 +97,6 @@ class ParoligiloWindow(Adw.ApplicationWindow):
 
     # Abspielen des Texts
     def read_text(self, button):
-        cwd = os.getcwd()   # liest den aktuellen Arbeitsordner ein
-        print ('### unten cwd', cwd)
 
         print ('### Audio abspielen   ###')
         buffer = self.main_text_view.get_buffer()
@@ -113,41 +108,28 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         # Retrieve all the visible text between the two bounds
         text = buffer.get_text(start, end, False)
 
-        # Ausgabe mit pyttsx4
-        engine = pyttsx4.init()
-        # print ('##### engine ist', engine)
-        engine.save_to_file(text, 'test1.wav')
-        engine.runAndWait()
+        engine = 'gTTS'
 
+        if engine == 'pyttsx4':
 
-        # Ausgabe mit piper Serverstart aus der Konsole
-        # im Ordner models/
-        # in .venv ([python3 -m piper.http_server --model de_DE-kerstin-low.onnx --length_scale 1.2 --noise_scale 0.333 --noise_w 0.33 --output-raw | aplay -r 20000 -f S16_LE -t raw - ])
-        #     --sentence-silence SENTENCE_SILENCE  ändert Abstand zwischen Worten
+            # Ausgabe auf Audiodatei mit pyttsx4
+            engine = pyttsx4.init()
+            # print ('##### engine ist', engine)
+            engine.save_to_file(text, 'test1.mp3')
+            engine.runAndWait()
 
-        # Serverstart
-        # python_bin = "/home/walter/builder-projekte/Paroligilo/bin"   # Pfad zur virtuellen Umgebung
-        # os.chdir(python_bin)
-        # print ('### nach wechsel cwd', os.getcwd())
+        elif engine == 'gTTS':
 
-        # server_file = "Paroligilo/piper/src/python_run/piper/http_server"
-        # subprocess.run([python_bin, server_file])
+            # Ausgabe der Audiodatei mit gTTS
+            tts = gTTS(text, lang='de')
+            tts.save('test1.mp3')
 
-        # textToSpeak = text
-        # print ('#####   ',textToSpeak)
-        # urlPiper = "http://localhost:5000"
-        # outputFilename = "test1.wav"
+        else:
+            return
 
-        # payload = {'text': textToSpeak}
-
-        # r = requests.get(urlPiper,params=payload)
-
-        # with open(outputFilename, 'wb') as fd:
-        #     for chunk in r.iter_content(chunk_size=128):
-        #         fd.write(chunk)
-
+        # Abspielen der Audiodatei
         mixer.init()
-        mixer.music.load("test1.wav")
+        mixer.music.load("test1.mp3")
         mixer.music.play()
 
 
