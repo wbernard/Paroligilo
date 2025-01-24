@@ -22,9 +22,7 @@ from gi.repository import Gtk, Gio, GLib
 
 
 import pyttsx4
-from playsound import playsound
-import requests
-import subprocess
+from pygame import mixer
 
 import os
 cwd = os.getcwd()   # liest den aktuellen Arbeitsordner ein
@@ -116,10 +114,10 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         text = buffer.get_text(start, end, False)
 
         # Ausgabe mit pyttsx4
-        # engine = pyttsx4.init()
+        engine = pyttsx4.init()
         # print ('##### engine ist', engine)
-        # engine.save_to_file(text, 'test1.wav')
-        # engine.runAndWait()
+        engine.save_to_file(text, 'test1.wav')
+        engine.runAndWait()
 
 
         # Ausgabe mit piper Serverstart aus der Konsole
@@ -135,21 +133,23 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         # server_file = "Paroligilo/piper/src/python_run/piper/http_server"
         # subprocess.run([python_bin, server_file])
 
-        textToSpeak = text
-        print ('#####   ',textToSpeak)
-        urlPiper = "http://localhost:5000"
-        outputFilename = "test1.wav"
+        # textToSpeak = text
+        # print ('#####   ',textToSpeak)
+        # urlPiper = "http://localhost:5000"
+        # outputFilename = "test1.wav"
 
-        payload = {'text': textToSpeak}
+        # payload = {'text': textToSpeak}
 
-        r = requests.get(urlPiper,params=payload)
+        # r = requests.get(urlPiper,params=payload)
 
-        with open(outputFilename, 'wb') as fd:
-            for chunk in r.iter_content(chunk_size=128):
-                fd.write(chunk)
+        # with open(outputFilename, 'wb') as fd:
+        #     for chunk in r.iter_content(chunk_size=128):
+        #         fd.write(chunk)
 
+        mixer.init()
+        mixer.music.load(test1.wav)
+        mixer.music.play(-1)
 
-        playsound('test1.wav')
 
 
     # Dialog zum Speichern des Audio-files
