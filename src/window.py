@@ -147,8 +147,8 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         #         fd.write(chunk)
 
         mixer.init()
-        mixer.music.load(test1.wav)
-        mixer.music.play(-1)
+        mixer.music.load("test1.wav")
+        mixer.music.play()
 
 
 
