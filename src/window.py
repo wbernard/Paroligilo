@@ -31,8 +31,8 @@ class ParoligiloWindow(Adw.ApplicationWindow):
 
     main_text_view = Gtk.Template.Child()  # Feld für Texteingabe
     open_button = Gtk.Template.Child()     # öffnet eine Datei
-    language_button = Gtk.Template.Child() # lädt Sprachmodule
-    read_button = Gtk.Template.Child()   # spielt Audio-Datei ab
+    tts_chooser = Gtk.Template.Child()     # lädt tts-engine
+    read_button = Gtk.Template.Child()     # spielt Audio-Datei ab
     save_button = Gtk.Template.Child()     # speichert Audio-Datei
 
     def __init__(self, **kwargs):
@@ -43,10 +43,8 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         open_action.connect("activate", self.open_file_dialog)
         self.add_action(open_action)
 
-        #die Aktion zum Laden der Sprachmodule wird hinzugefügt
-        language_action = Gio.SimpleAction(name="open")
-        language_action.connect("activate", self.open_file_dialog)
-        self.add_action(language_action)
+        #die Aktion zum Laden der tts-engine wird hinzugefügt
+        #self.tts_chooser.connect("notify::selected-item", on_selected_engine)
 
         #die Aktion zum Hören des Texts wird hinzugefügt
         self.read_button.connect('clicked', self.read_text)
@@ -108,23 +106,21 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         # Retrieve all the visible text between the two bounds
         text = buffer.get_text(start, end, False)
 
-        engine = 'gTTS'
+        selected_engine = self.tts_chooser.get_selected_item().get_string()
+        print(selected_engine)
+
+        engine = selected_engine
 
         if engine == 'pyttsx4':
-
             # Ausgabe auf Audiodatei mit pyttsx4
-            engine = pyttsx4.init()
-            # print ('##### engine ist', engine)
-            engine.save_to_file(text, 'test1.mp3')
-            engine.runAndWait()
+            self.use_pyttsx4(text)
 
         elif engine == 'gTTS':
-
             # Ausgabe der Audiodatei mit gTTS
-            tts = gTTS(text, lang='de')
-            tts.save('test1.mp3')
+            self.use_gTTS(text)
 
         else:
+            print ('funktioniert noch nicht')
             return
 
         # Abspielen der Audiodatei
@@ -132,7 +128,14 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         mixer.music.load("test1.mp3")
         mixer.music.play()
 
+    def use_pyttsx4(self,text):
+        engine = pyttsx4.init()
+        engine.save_to_file(text, 'test1.mp3')
+        engine.runAndWait()
 
+    def use_gTTS(self,text):
+            tts = gTTS(text, lang='de')
+            tts.save('test1.mp3')
 
     # Dialog zum Speichern des Audio-files
     def save_audio_dialog(self, button):

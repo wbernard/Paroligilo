@@ -20,9 +20,17 @@
               </object>
             </child>
             <child>
-              <object class="GtkButton" id="language_button">
-                <property name="label">Language</property>
-                <property name="action-name">win.open</property>
+              <object class="GtkDropDown" id="tts_chooser">
+                <property name="enable-search">true</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item>pyttsx4</item>
+                      <item>gTTS</item>
+                      <item>piper-tts</item>
+                    </items>
+                  </object>
+                </property>
               </object>
             </child>
             <child type="end">
