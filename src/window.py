@@ -23,7 +23,7 @@ from gi.repository import Gtk, Gio, GLib
 
 import pyttsx4
 from pygame import mixer
-from gtts import gTTS
+from gtts import gTTS, lang
 
 @Gtk.Template(resource_path='/im/bernard/Paroligilo/window.ui')
 class ParoligiloWindow(Adw.ApplicationWindow):
@@ -34,6 +34,7 @@ class ParoligiloWindow(Adw.ApplicationWindow):
     tts_chooser = Gtk.Template.Child()     # lädt tts-engine
     read_button = Gtk.Template.Child()     # spielt Audio-Datei ab
     save_button = Gtk.Template.Child()     # speichert Audio-Datei
+    lang_chooser= Gtk.Template.Child()     # lädt Sprache
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -134,7 +135,19 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         engine.runAndWait()
 
     def use_gTTS(self,text):
-            tts = gTTS(text, lang='de')
+            selected_language = self.lang_chooser.get_selected_item().get_string()
+            print(selected_language)
+            if selected_language == "Deutsch":
+                lang = 'de'
+            elif selected_language == "Italiano":
+                lang = 'it'
+            elif selected_language == "English":
+                lang = 'en'
+            else:
+                print ('funktioniert noch nicht')
+                return
+
+            tts = gTTS(text, lang=lang)
             tts.save('test1.mp3')
 
     # Dialog zum Speichern des Audio-files

@@ -58,9 +58,9 @@
                   <object class="GtkStringList">
                     <items>
                       <item>Deutsch</item>
-                      <item>Italienisch</item>
+                      <item>Italiano</item>
                       <item>Esperanto</item>
-                      <item>Englisch</item>
+                      <item>English</item>
                     </items>
                   </object>
                 </property>
