@@ -22,6 +22,7 @@ from gi.repository import Gtk, Gio, GLib
 
 
 import pyttsx4
+import os
 from pygame import mixer
 from gtts import gTTS, lang
 
@@ -109,16 +110,50 @@ class ParoligiloWindow(Adw.ApplicationWindow):
 
         selected_engine = self.tts_chooser.get_selected_item().get_string()
         print(selected_engine)
-
         engine = selected_engine
+
+        selected_language = self.lang_chooser.get_selected_item().get_string()
+        print(selected_language)
+        # if selected_language == "Deutsch":
+        #     lang = 'de'
+        # elif selected_language == "Italiano":
+        #     lang = 'it'
+        # elif selected_language == "English":
+        #     lang = 'en'
+        # else:
+        #     print ('funktioniert noch nicht')
+        #     return
+
+        #lang = selected_language
 
         if engine == 'pyttsx4':
             # Ausgabe auf Audiodatei mit pyttsx4
-            self.use_pyttsx4(text)
+            if selected_language == "Deutsch":
+                lang = 'German'
+            elif selected_language == "Italiano":
+                lang = 'Italian'
+            elif selected_language == "English":
+                lang = 'English (Great Britain)'
+            elif selected_language == "Esperanto":
+                lang = 'Esperanto'
+            else:
+                print ('funktioniert noch nicht')
+                return
+
+            self.use_pyttsx4(text, lang)
 
         elif engine == 'gTTS':
             # Ausgabe der Audiodatei mit gTTS
-            self.use_gTTS(text)
+            if selected_language == "Deutsch":
+                lang = 'de'
+            elif selected_language == "Italiano":
+                lang = 'it'
+            elif selected_language == "English":
+                lang = 'en'
+            else:
+                print ('funktioniert noch nicht')
+                return
+            self.use_gTTS(text, lang)
 
         else:
             print ('funktioniert noch nicht')
@@ -129,26 +164,20 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         mixer.music.load("test1.mp3")
         mixer.music.play()
 
-    def use_pyttsx4(self,text):
+    def use_pyttsx4(self,text, lang):
         engine = pyttsx4.init()
+        print ('voice_id', lang)
+        voices = engine.getProperty('voices')
+        for voice in voices:
+            print(voice, voice.id)
+        engine.setProperty('voice', lang)
         engine.save_to_file(text, 'test1.mp3')
         engine.runAndWait()
 
-    def use_gTTS(self,text):
-            selected_language = self.lang_chooser.get_selected_item().get_string()
-            print(selected_language)
-            if selected_language == "Deutsch":
-                lang = 'de'
-            elif selected_language == "Italiano":
-                lang = 'it'
-            elif selected_language == "English":
-                lang = 'en'
-            else:
-                print ('funktioniert noch nicht')
-                return
+    def use_gTTS(self,text, lang):
 
-            tts = gTTS(text, lang=lang)
-            tts.save('test1.mp3')
+        tts = gTTS(text, lang=lang)
+        tts.save('test1.mp3')
 
     # Dialog zum Speichern des Audio-files
     def save_audio_dialog(self, button):
