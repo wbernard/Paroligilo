@@ -36,6 +36,8 @@ class ParoligiloWindow(Adw.ApplicationWindow):
     read_button = Gtk.Template.Child()     # spielt Audio-Datei ab
     save_button = Gtk.Template.Child()     # speichert Audio-Datei
     lang_chooser= Gtk.Template.Child()     # lädt Sprache
+    gender_chooser = Gtk.Template.Child()  # lädt Geschlecht
+    speed_chooser= Gtk.Template.Child()    # lädt Sprechgeschwindigkeit
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -114,17 +116,12 @@ class ParoligiloWindow(Adw.ApplicationWindow):
 
         selected_language = self.lang_chooser.get_selected_item().get_string()
         print(selected_language)
-        # if selected_language == "Deutsch":
-        #     lang = 'de'
-        # elif selected_language == "Italiano":
-        #     lang = 'it'
-        # elif selected_language == "English":
-        #     lang = 'en'
-        # else:
-        #     print ('funktioniert noch nicht')
-        #     return
 
-        #lang = selected_language
+        selected_gender = self.gender_chooser.get_selected_item().get_string()
+        print(selected_gender)
+
+        selected_speed = self.speed_chooser.get_selected_item().get_string()
+        print(selected_speed)
 
         if engine == 'pyttsx4':
             # Ausgabe auf Audiodatei mit pyttsx4
@@ -139,8 +136,10 @@ class ParoligiloWindow(Adw.ApplicationWindow):
             else:
                 print ('funktioniert noch nicht')
                 return
+            gender = selected_gender
+            speed = selected_speed
 
-            self.use_pyttsx4(text, lang)
+            self.use_pyttsx4(text, lang, gender, speed)
 
         elif engine == 'gTTS':
             # Ausgabe der Audiodatei mit gTTS
@@ -164,13 +163,17 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         mixer.music.load("test1.mp3")
         mixer.music.play()
 
-    def use_pyttsx4(self,text, lang):
+    def use_pyttsx4(self,text, lang, gender, speed):
         engine = pyttsx4.init()
-        print ('voice_id', lang)
-        voices = engine.getProperty('voices')
-        for voice in voices:
-            print(voice, voice.id)
+        #voices = engine.getProperty('voices')
+        #for voice in voices:
+            #print(voice, voice.id)
+        if gender == 'F':
+            lang = lang + 'f4'
+
         engine.setProperty('voice', lang)
+        rate = int(speed)
+        engine.setProperty('rate', rate)
         engine.save_to_file(text, 'test1.mp3')
         engine.runAndWait()
 
