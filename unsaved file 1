@@ -1,0 +1,17 @@
+WRONG
+
+
+	{
+      "name": "python3.10",
+      "buildsystem": "simple",
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://www.python.org/ftp/python/3.10.9/Python-3.10.9.tgz",
+          "sha256": "4ccd7e46c8898f4c7862910a1703aa0e63525913a519abb2f55e26220a914d88"
+        }
+      ],
+      "build-commands": [
+        "./configure --prefix=/app && make && make install"
+      ]
+    },

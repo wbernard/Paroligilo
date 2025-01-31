@@ -116,13 +116,19 @@
           <object class="GtkScrolledWindow">
             <property name="hexpand">true</property>
             <property name="vexpand">true</property>
-            <property name="margin-top">6</property>
-            <property name="margin-bottom">6</property>
-            <property name="margin-start">6</property>
-            <property name="margin-end">6</property>
             <property name="child">
               <object class="GtkTextView" id="main_text_view">
                 <property name="monospace">true</property>
+                <property name="top-margin">6</property>
+                  <property name="bottom-margin">12</property>
+                  <property name="left-margin">12</property>
+                  <property name="right-margin">12</property>
+                  <property name="wrap-mode">GTK_WRAP_WORD_CHAR</property>
+                  <style>
+                    <class name="inline"/>
+                    <class name="editor"/>
+                    <class name="monospace"/>
+                  </style>
               </object>
             </property>
 

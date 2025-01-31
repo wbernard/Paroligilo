@@ -1,0 +1,16 @@
+	{
+        "name": "python",
+        "builddir": true,
+        "buildsystem": "autotools",
+        "config-opts": [
+            "--exec-prefix=/app",
+            "--enable-shared"
+        ],
+        "sources": [
+            {
+                "type": "archive",
+                "url": "https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tar.xz",
+                "sha256": "afb74bf19130e7a47d10312c8f5e784f24e0527981eab68e20546cfb865830b8"
+            }
+        ]
+    },
