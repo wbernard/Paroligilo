@@ -15,8 +15,14 @@
           <object class="AdwHeaderBar" id="header_bar">
             <child type="start">
               <object class="GtkButton" id="open_button">
-                <property name="label">Open</property>
                 <property name="action-name">win.open</property>
+                <property name="child">
+                  <object class="AdwButtonContent">
+                    <property name="icon-name">document-open-symbolic</property>
+                    <property name="label" translatable="yes">_Open</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                </property>
               </object>
             </child>
             <child>
@@ -41,16 +47,25 @@
                 <property name="menu-model">primary_menu</property>
               </object>
             </child>
+            <child type="end">
+              <object class="GtkButton" id="save_button">
+                <property name="icon-name">document-save-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Save Text File</property>
+              </object>
+            </child>
+
           </object>
         </child>
 
         <child type="bottom">
           <object class="GtkBox">
-            <property name="orientation">0</property>
-            <property name="margin-top">8</property>
-            <property name="margin-bottom">12</property>
-            <property name="halign">3</property>
-            <property name="spacing">8</property>
+            <property name="margin-top">6</property>
+            <property name="margin-bottom">6</property>
+            <property name="margin-start">6</property>
+            <property name="margin-end">6</property>
+            <property name="spacing">6</property>
+            <property name="hexpand">True</property>
+            <property name="halign">GTK_ALIGN_FILL</property>
             <child type="start">
               <object class="GtkDropDown" id="lang_chooser">
                 <property name="enable-search">true</property>
@@ -66,7 +81,7 @@
                 </property>
               </object>
             </child>
-            <child>
+            <child type="start">
               <object class="GtkDropDown" id="gender_chooser">
                 <property name="enable-search">true</property>
                 <property name="model">
@@ -79,7 +94,7 @@
                 </property>
               </object>
             </child>
-            <child>
+            <child type="start">
               <object class="GtkDropDown" id="speed_chooser">
                 <property name="enable-search">true</property>
                 <property name="model">
@@ -99,14 +114,15 @@
                 </property>
               </object>
             </child>
-            <child>
+            <child type="end">
               <object class="GtkButton" id="read_button">
                 <property name="label" translatable="true">Read</property>
               </object>
             </child>
             <child type="end">
-              <object class="GtkButton" id="save_button">
-                <property name="label" translatable="true">Save</property>
+              <object class="GtkButton" id="save_audio_button">
+                <property name="icon-name">document-save-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Save Audio File</property>
               </object>
             </child>
           </object>
