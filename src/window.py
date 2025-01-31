@@ -124,22 +124,7 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         print(selected_speed)
 
         if engine == 'pyttsx4':
-            # Ausgabe auf Audiodatei mit pyttsx4
-            if selected_language == "Deutsch":
-                lang = 'German'
-            elif selected_language == "Italiano":
-                lang = 'Italian'
-            elif selected_language == "English":
-                lang = 'English (Great Britain)'
-            elif selected_language == "Esperanto":
-                lang = 'Esperanto'
-            else:
-                print ('funktioniert noch nicht')
-                return
-            gender = selected_gender
-            speed = selected_speed
-
-            self.use_pyttsx4(text, lang, gender, speed)
+            self.use_pyttsx4(text, selected_language, selected_gender, selected_speed)
 
         elif engine == 'gTTS':
             # Ausgabe der Audiodatei mit gTTS
@@ -164,14 +149,50 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         mixer.music.play()
 
     def use_pyttsx4(self,text, lang, gender, speed):
-        engine = pyttsx4.init()
-        #voices = engine.getProperty('voices')
-        #for voice in voices:
-            #print(voice, voice.id)
-        if gender == 'F':
-            lang = lang + 'f4'
 
-        engine.setProperty('voice', lang)
+        if lang == "Deutsch":
+            lang = 'German'
+        elif lang == "Italiano":
+            lang = 'Italian'
+        elif lang == "English":
+            lang = 'English (Great Britain)'
+        elif lang == "Esperanto":
+            lang = 'Esperanto'
+        else:
+            print ('funktioniert noch nicht')
+            return
+
+        engine = pyttsx4.init()
+        voices = engine.getProperty('voices')
+
+        myVoice = []
+        for voice in voices:
+            if voice.id == lang:
+                if len(myVoice) == 0:
+                    myVoice = [voice]
+                else:
+                    myVoice = [myVoice, voice]
+                print(myVoice)
+
+        if len(myVoice) == 0:
+            print("No voice found for language")
+            return
+
+        finalVoice = []
+        if gender == "F":
+            gender = "female"
+        else:
+            gender = "male"
+        for voice in myVoice:
+            if voice.gender == gender:
+                finalVoice = [voice]
+                break
+
+        if len(finalVoice) == 0:
+            print("No voice found for language")
+            return
+
+        engine.setProperty('voice', finalVoice[0].id)
         rate = int(speed)
         engine.setProperty('rate', rate)
         engine.save_to_file(text, 'test1.mp3')
@@ -179,7 +200,7 @@ class ParoligiloWindow(Adw.ApplicationWindow):
 
     def use_gTTS(self,text, lang):
 
-        tts = gTTS(text, lang=lang)
+        tts = gTTS(text, lang=lang, slow=True)
         tts.save('test1.mp3')
 
     # Dialog zum Speichern des Audio-files
