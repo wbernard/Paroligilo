@@ -47,6 +47,16 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         open_action.connect("activate", self.open_file_dialog)
         self.add_action(open_action)
 
+        # die Aktion zum Speichern des Texts wird hinzugefügt
+        save_text_action = Gio.SimpleAction(name="save-text-as")
+        save_text_action.connect("activate", self.save_file_dialog)
+        self.add_action(save_text_action)
+
+        # die Aktion zum Speichern des Audio-files wird hinzugefügt
+        save_audio_action = Gio.SimpleAction(name="save-as")
+        save_audio_action.connect("activate", self.save_file_dialog)
+        self.add_action(save_audio_action)
+
         #die Aktion zum Laden der tts-engine wird hinzugefügt
         #self.tts_chooser.connect("notify::selected-item", on_selected_engine)
 
@@ -62,13 +72,24 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         native = Gtk.FileDialog()
         native.open(self, None, self.on_open_response)
 
+    # Dialog zum Speichern einer Datei wird definiert
+    def save_file_dialog(self, action, _):
+        native = Gtk.FileDialog()
+        native.save(self, None, self.on_save_response)
+
     # definiert was geschieht wenn Datei ausgewählt/nicht ausgewählt wurde
     def on_open_response(self, dialog, result):
         file = dialog.open_finish(result)
         # If the user selected a file...
         if file is not None:
-            # ... open it
+            # ... open itgit
             self.open_file(file)
+
+    # definiert was geschieht wenn Datei ausgewählt/nicht ausgewählt wurde
+    def on_save_response(self, dialog, result):
+        file = dialog.save_finish(result)
+        if file is not None:
+            self.save_file(file)
 
     # Inhalt der Textdatei wird asynchron geöffnet um die Anwendung nicht zu blockieren
     def open_file(self, file):
@@ -96,6 +117,41 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         buffer.set_text(text)
         start = buffer.get_start_iter()
         buffer.place_cursor(start)
+
+    def save_file(self, file):
+        buffer = self.main_text_view.get_buffer()
+
+        # Retrieve the iterator at the start of the buffer
+        start = buffer.get_start_iter()
+        # Retrieve the iterator at the end of the buffer
+        end = buffer.get_end_iter()
+        # Retrieve all the visible text between the two bounds
+        text = buffer.get_text(start, end, False)
+
+        # If there is nothing to save, return early
+        if not text:
+            return
+
+        bytes = GLib.Bytes.new(text.encode('utf-8'))
+
+        # Start the asynchronous operation to save the data into the file
+        file.replace_contents_bytes_async(bytes,
+                                          None,
+                                          False,
+                                          Gio.FileCreateFlags.NONE,
+                                          None,
+                                          self.save_file_complete)
+
+    def save_file_complete(self, file, result):
+        res = file.replace_contents_finish(result)
+        info = file.query_info("standard::display-name",
+                               Gio.FileQueryInfoFlags.NONE)
+        if info:
+            display_name = info.get_attribute_string("standard::display-name")
+        else:
+            display_name = file.get_basename()
+        if not res:
+            print(f"Unable to save {display_name}")
 
     # Abspielen des Texts
     def read_text(self, button):
