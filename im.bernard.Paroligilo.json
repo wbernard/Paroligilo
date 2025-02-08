@@ -46,6 +46,72 @@
             ]
         },
 
+          {
+	    "name": "onnx",
+	    "buildsystem": "simple",
+	    "build-commands": [
+	      "cp -r --no-target-directory ./include /app/include",
+	      "cp -r --no-target-directory ./lib /app/lib"
+	    ],
+	    "sources": [
+	      {
+		"type": "archive",
+		"only-arches": [
+		  "x86_64"
+		],
+		"url": "https://github.com/microsoft/onnxruntime/releases/download/v1.16.1/onnxruntime-linux-x64-1.16.1.tgz",
+		"sha256": "53a0f03f71587ed602e99e82773132fc634b74c2d227316fbfd4bf67181e72ed"
+	      },
+	      {
+		"type": "archive",
+		"only-arches": [
+		  "aarch64"
+		],
+		"url": "https://github.com/microsoft/onnxruntime/releases/download/v1.16.1/onnxruntime-linux-aarch64-1.16.1.tgz",
+		"sha256": "f10851b62eb44f9e811134737e7c6edd15733d2c1549cb6ce403808e9c047385"
+	      }
+	    ]
+	  },
+
+          {
+	    "name": "piperphonemize",
+	    "buildsystem": "cmake-ninja",
+	    "config-opts": [
+	      "-DCMAKE_BUILD_TYPE=Release",
+	      "-DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=ON",
+	      "-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
+	    ],
+	    "sources": [
+	      {
+		"type": "archive",
+		"url": "https://github.com/rhasspy/piper-phonemize/archive/7f7b5bd4de22f7fe24341c5bedda0dc1e33f3666.zip",
+		"sha256": "6bdcb21f6c5ae0deff7c9ae26bf07b994791dc800c1962fd216727e66a409929"
+	      },
+	        {
+	         "type": "patch",
+	         "path": "../patches/piperphonemize.patch"
+		}
+	   ]
+  	},
+
+  	  {
+	    "name": "piper",
+	    "buildsystem": "cmake-ninja",
+	    "config-opts": [
+	      "-DCMAKE_BUILD_TYPE=Release",
+	      "-DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=ON",
+	      "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
+	      "-DPIPER_PHONEMIZE_INCLUDE=/app/include/piper-phonemize"
+	    ],
+	    "sources": [
+	      {
+		"type": "archive",
+		"url": "https://github.com/rhasspy/piper/archive/e268564deb779af984ac8f632c98727447632124.zip",
+		"sha256": "213a31c23c862cbcd9de4231c07d32de35f4ee0b5b5dec52e9ae6dd3aa70ac12"
+	      }
+	    ]
+	  },
+
         {
             "name" : "paroligilo",
             "builddir" : true,
