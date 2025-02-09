@@ -93,21 +93,19 @@
 		}
 	   ]
   	},
-
-  	  {
-	    "name": "piper",
-	    "buildsystem": "cmake-ninja",
-	    "config-opts": [
-	      "-DCMAKE_BUILD_TYPE=Release",
-	      "-DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=ON",
-	      "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
-	      "-DPIPER_PHONEMIZE_INCLUDE=/app/include/piper-phonemize"
+	{
+	    "name": "mbrola",
+	    "buildsystem": "simple",
+	    "build-commands": [
+	      "make",
+	      "mkdir -p /app/bin",
+	      "cp Bin/mbrola /app/bin"
 	    ],
 	    "sources": [
 	      {
 		"type": "archive",
-		"url": "https://github.com/rhasspy/piper/archive/e268564deb779af984ac8f632c98727447632124.zip",
-		"sha256": "213a31c23c862cbcd9de4231c07d32de35f4ee0b5b5dec52e9ae6dd3aa70ac12"
+		"url": "https://github.com/numediart/MBROLA/archive/refs/tags/3.3.tar.gz",
+		"sha256": "c01ded2c0a05667e6df2439c1c02b011a5df2bfdf49e24a524630686aea2b558"
 	      }
 	    ]
 	  },
