@@ -26,6 +26,7 @@
                   <object class="GtkStringList">
                     <items>
                       <item>pyttsx4</item>
+                      <item>voxpopuli</item>
                       <item>gTTS</item>
                       <item>piper-tts</item>
                     </items>
@@ -40,7 +41,8 @@
                 <property name="tooltip-text" translatable="yes">Menu</property>
                 <property name="menu-model">primary_menu</property>
               </object>
-            </child>
+            </child>git status
+
           </object>
         </child>
 

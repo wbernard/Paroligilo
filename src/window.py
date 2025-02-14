@@ -26,6 +26,7 @@ import os
 import shutil
 from pygame import mixer
 from gtts import gTTS, lang
+from voxpopuli import Voice
 
 @Gtk.Template(resource_path='/im/bernard/Paroligilo/window.ui')
 class ParoligiloWindow(Adw.ApplicationWindow):
@@ -193,6 +194,20 @@ class ParoligiloWindow(Adw.ApplicationWindow):
 
         if engine == 'pyttsx4':
             self.use_pyttsx4(text, selected_language, selected_gender, selected_speed)
+
+        elif engine == 'voxpopuli':
+
+            if selected_language == "Deutsch":
+                lang = 'de'
+            elif selected_language == "Italiano":
+                lang = 'it'
+            elif selected_language == "English":
+                lang = 'en'
+            else:
+                print ('funktioniert noch nicht')
+                return
+            voice = Voice(lang =lang)
+            wav = voice.to_audio(text)
 
         elif engine == 'gTTS':
             # Ausgabe der Audiodatei mit gTTS
