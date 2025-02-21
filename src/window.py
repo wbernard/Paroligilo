@@ -19,14 +19,12 @@
 
 from gi.repository import Adw
 from gi.repository import Gtk, Gio, GLib
-
-
 import pyttsx4
 import os
 import shutil
 from pygame import mixer
 from gtts import gTTS, lang
-from voxpopuli import Voice
+from .myvoxpopuli import MyVoice
 
 @Gtk.Template(resource_path='/im/bernard/Paroligilo/window.ui')
 class ParoligiloWindow(Adw.ApplicationWindow):
@@ -204,9 +202,9 @@ class ParoligiloWindow(Adw.ApplicationWindow):
             elif selected_language == "English":
                 lang = 'en'
             else:
-                print ('funktioniert noch nicht')
+                print ('funktioniert noch nicgit ht')
                 return
-            voice = Voice(lang =lang)
+            voice = MyVoice(lang =lang)
             wav = voice.to_audio(text)
 
         elif engine == 'gTTS':

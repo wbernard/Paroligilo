@@ -30,6 +30,7 @@ paroligilo_sources = [
   '__init__.py',
   'main.py',
   'window.py',
+  'myvoxpopuli.py',
 ]
 
 install_data(paroligilo_sources, install_dir: moduledir)
