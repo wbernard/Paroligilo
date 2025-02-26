@@ -25,7 +25,7 @@ import shutil
 from pygame import mixer
 from gtts import gTTS, lang
 #from .myvoxpopuli import MyVoice
-from voxpopuli import Voice
+from voxpopuli.main import Voice
 
 @Gtk.Template(resource_path='/im/bernard/Paroligilo/window.ui')
 class ParoligiloWindow(Adw.ApplicationWindow):
@@ -216,7 +216,7 @@ class ParoligiloWindow(Adw.ApplicationWindow):
 
         # Abspielen der Audiodatei
         mixer.init()
-        mixer.music.load("test1.wav")
+        mixer.music.load("test22.wav")
         mixer.music.play()
 
     def use_pyttsx4(self,text, lang, gender, speed):
@@ -280,13 +280,19 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         else:
             print ('funktioniert noch nicht')
             return
-        voice = Voice(lang =lang)
+
+        print ('Arbeitsordner', os.getcwd())
+        os.chdir('builder-projekte/Paroligilo/voxpopuli')
+        print ('neuer Arbeitsordner', os.getcwd())
+        print ('Files in Arbeitsordner', os.listdir())
+        voice = Voice(lang = lang)
         print ('Sprache', lang)
+        print ('der Text', text)
         wav = voice.to_audio(text)
         print ('jetzt ist der wav', wav)
-        with open("test1.wav", "wb") as wavfile:
+        with open("test22.wav", "wb") as wavfile:
             wavfile.write(wav)
-        print ('der audiofile', 'test1.wav')
+        print ('der audiofile', 'test22.wav')
 
     def use_gTTS(self,text, lang):
 

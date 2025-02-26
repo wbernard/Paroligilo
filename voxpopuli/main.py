@@ -14,9 +14,9 @@ from sys import platform
 from typing import List, Dict
 from typing import Union
 
-from voxpopuli.phonemes import BritishEnglishPhonemes, GermanPhonemes, FrenchPhonemes, \
+
+from .phonemes import BritishEnglishPhonemes, GermanPhonemes, FrenchPhonemes, \
     SpanishPhonemes, ItalianPhonemes, PhonemeList
-print ('deutsche Phoneme', GermanPhonemes )
 
 class AudioPlayer:
     """A sound player"""
@@ -53,24 +53,35 @@ class AudioPlayer:
         self.stream.close()
         self.p.terminate()
 
+
 lg_code_to_phoneme = {"fr": FrenchPhonemes,
                       "en": BritishEnglishPhonemes,
                       "es": SpanishPhonemes,
                       "de": GermanPhonemes,
                       "it": ItalianPhonemes}
 
-class MyVoice:
+
+class Voice:
     class InvalidVoiceParameters(Exception):
         pass
-    print ('aktueller Arbeitsordner in Myvoice', os.getcwd())
-    print('meine Platform', platform)
-    #os.chdir("paroligilo")
-    #print ('neuer aktueller Arbeitsordner', os.getcwd())
-    ordner = os.listdir()
-    print (ordner)
-    espeak_binary = 'espeak'
-    mbrola_binary = 'mbrola'
-    mbrola_voices_folder = "builder-projekte/Paroligilo/data/voices/mbrola"
+
+    if platform in ('linux', 'darwin'):
+        espeak_binary = 'espeak'
+        mbrola_binary = 'mbrola'
+        mbrola_voices_folder = "../data/voices/mbrola"
+        print ('mein voice ordner ist', mbrola_voices_folder)
+    elif platform == 'win32':
+        # If the path has spaces it needs to be enclosed in double quotes.
+        espeak_binary = '"C:\\Program Files (x86)\\eSpeak\\command_line\\espeak"'
+        mbrola_binary = '"C:\\Program Files (x86)\\Mbrola Tools\\mbrola"'
+        mbrola_voices_folder = os.path.expanduser('~\\.mbrola\\')
+
+        if not os.path.exists(mbrola_voices_folder):
+            os.makedirs(mbrola_voices_folder)
+
+        # TODO: raise error if no binary is installed
+    else:
+        raise ValueError('Unsupported system.')
 
     volumes_presets = {'fr1': 1.17138, 'fr2': 1.60851, 'fr3': 1.01283,
                        'fr4': 1.0964, 'fr5': 2.64384, 'fr6': 1.35412,
@@ -122,6 +133,7 @@ class MyVoice:
 
     def _find_existing_voiceid(self, lang: str):
         """Finds any possible voice id for a given language"""
+        print ('Arbeitsordner in Voice', os.getcwd())
         for file in os.listdir(self.mbrola_voices_folder):
             if fnmatch.fnmatch(file, lang + "[0-9]"):
                 return int(file.strip(lang))
@@ -232,7 +244,6 @@ class MyVoice:
                                "the official mbrola repository on github")
 
         if isinstance(speech, str):
-            print ('_str_to_audio')
             wav = self._str_to_audio(quote(speech))
         elif isinstance(speech, PhonemeList):
             wav = self._phonemes_to_audio(speech)
@@ -240,8 +251,7 @@ class MyVoice:
         if filename is not None:
             with open(filename, "wb") as wavfile:
                 wavfile.write(wav)
-        print ('to_audio beendet')
-        print ('der wav ist ', wav)
+
         return wav
 
     def say(self, speech: Union[PhonemeList, str]):
