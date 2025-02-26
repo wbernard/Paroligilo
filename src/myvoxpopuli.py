@@ -16,14 +16,61 @@ from typing import Union
 
 from voxpopuli.phonemes import BritishEnglishPhonemes, GermanPhonemes, FrenchPhonemes, \
     SpanishPhonemes, ItalianPhonemes, PhonemeList
+print ('deutsche Phoneme', GermanPhonemes )
+
+class AudioPlayer:
+    """A sound player"""
+    chunk = 1024
+
+    def __init__(self):
+        """ Init audio stream """
+        self.wf, self.stream = None, None
+        import pyaudio
+        self.p = pyaudio.PyAudio()
+
+    def set_file(self, file):
+        if self.stream is not None:
+            self.stream.close()
+
+        self.wf = wave.open(file, 'rb')
+        self.stream = self.p.open(
+            format=self.p.get_format_from_width(self.wf.getsampwidth()),
+            channels=self.wf.getnchannels(),
+            rate=self.wf.getframerate(),
+            output=True
+        )
+
+    def play(self):
+        """ Play entire file """
+        data = self.wf.readframes(self.chunk)
+        while data != b'':
+            self.stream.write(data)
+            data = self.wf.readframes(self.chunk)
+
+    def close(self):
+        """ Graceful shutdown """
+        self.stream.stop_stream()
+        self.stream.close()
+        self.p.terminate()
+
+lg_code_to_phoneme = {"fr": FrenchPhonemes,
+                      "en": BritishEnglishPhonemes,
+                      "es": SpanishPhonemes,
+                      "de": GermanPhonemes,
+                      "it": ItalianPhonemes}
 
 class MyVoice:
     class InvalidVoiceParameters(Exception):
         pass
-
+    print ('aktueller Arbeitsordner in Myvoice', os.getcwd())
+    print('meine Platform', platform)
+    #os.chdir("paroligilo")
+    #print ('neuer aktueller Arbeitsordner', os.getcwd())
+    ordner = os.listdir()
+    print (ordner)
     espeak_binary = 'espeak'
     mbrola_binary = 'mbrola'
-    mbrola_voices_folder = "./data/voices/mbrola"
+    mbrola_voices_folder = "builder-projekte/Paroligilo/data/voices/mbrola"
 
     volumes_presets = {'fr1': 1.17138, 'fr2': 1.60851, 'fr3': 1.01283,
                        'fr4': 1.0964, 'fr5': 2.64384, 'fr6': 1.35412,
@@ -185,6 +232,7 @@ class MyVoice:
                                "the official mbrola repository on github")
 
         if isinstance(speech, str):
+            print ('_str_to_audio')
             wav = self._str_to_audio(quote(speech))
         elif isinstance(speech, PhonemeList):
             wav = self._phonemes_to_audio(speech)
@@ -192,7 +240,8 @@ class MyVoice:
         if filename is not None:
             with open(filename, "wb") as wavfile:
                 wavfile.write(wav)
-
+        print ('to_audio beendet')
+        print ('der wav ist ', wav)
         return wav
 
     def say(self, speech: Union[PhonemeList, str]):

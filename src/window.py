@@ -24,7 +24,8 @@ import os
 import shutil
 from pygame import mixer
 from gtts import gTTS, lang
-from .myvoxpopuli import MyVoice
+#from .myvoxpopuli import MyVoice
+from voxpopuli import Voice
 
 @Gtk.Template(resource_path='/im/bernard/Paroligilo/window.ui')
 class ParoligiloWindow(Adw.ApplicationWindow):
@@ -194,18 +195,7 @@ class ParoligiloWindow(Adw.ApplicationWindow):
             self.use_pyttsx4(text, selected_language, selected_gender, selected_speed)
 
         elif engine == 'voxpopuli':
-
-            if selected_language == "Deutsch":
-                lang = 'de'
-            elif selected_language == "Italiano":
-                lang = 'it'
-            elif selected_language == "English":
-                lang = 'en'
-            else:
-                print ('funktioniert noch nicgit ht')
-                return
-            voice = MyVoice(lang =lang)
-            wav = voice.to_audio(text)
+            self.use_voxpopuli(text, selected_language, selected_gender, selected_speed)
 
         elif engine == 'gTTS':
             # Ausgabe der Audiodatei mit gTTS
@@ -226,7 +216,7 @@ class ParoligiloWindow(Adw.ApplicationWindow):
 
         # Abspielen der Audiodatei
         mixer.init()
-        mixer.music.load("test1.mp3")
+        mixer.music.load("test1.wav")
         mixer.music.play()
 
     def use_pyttsx4(self,text, lang, gender, speed):
@@ -277,8 +267,26 @@ class ParoligiloWindow(Adw.ApplicationWindow):
         engine.setProperty('voice', lang)
         rate = int(speed)
         engine.setProperty('rate', rate)
-        engine.save_to_file(text, 'test1.mp3')
+        engine.save_to_file(text, 'test1.wav')
         engine.runAndWait()
+
+    def use_voxpopuli(self,text, lang, gender, speed):
+        if lang == "Deutsch":
+            lang = 'de'
+        elif lang == "Italiano":
+            lang = 'it'
+        elif lang == "English":
+            lang = 'en'
+        else:
+            print ('funktioniert noch nicht')
+            return
+        voice = Voice(lang =lang)
+        print ('Sprache', lang)
+        wav = voice.to_audio(text)
+        print ('jetzt ist der wav', wav)
+        with open("test1.wav", "wb") as wavfile:
+            wavfile.write(wav)
+        print ('der audiofile', 'test1.wav')
 
     def use_gTTS(self,text, lang):
 
