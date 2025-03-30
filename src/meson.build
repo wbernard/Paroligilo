@@ -32,4 +32,5 @@ paroligilo_sources = [
   'window.py',
 ]
 
+subdir('python_run')
 install_data(paroligilo_sources, install_dir: moduledir)
